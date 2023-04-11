@@ -41,7 +41,7 @@ del df
 # UI Section
 
 st.title('Fashion items Dataset')
-st.text(f'Select from available products or take a picture: {len(df_random)}')
+st.text(f'Please take a picture to see the related products: {len(df_random)}')
 
 img_file_buffer = st.camera_input("Take a picture")
 
