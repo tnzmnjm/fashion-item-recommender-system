@@ -1,0 +1,10 @@
+tensorflow
+pandas
+Pillow
+scikit-learn
+tqdm
+streamlit
+joblib
+matplotlib
+numpy
+wordcloud
