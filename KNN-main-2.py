@@ -1,4 +1,3 @@
-import subprocess
 import pandas as pd
 import numpy as np
 from sklearn.neighbors import NearestNeighbors
@@ -10,7 +9,8 @@ def substitution_product_recommendation(product_id):
     index_in_random_id = np.where(random_ids == product_id)[0][0]
     index_in_random_vectorised_matrix = index_in_random_id
     distance, nbr_indices_in_vectorised_matrix = \
-        clf.kneighbors(vectorised_matrix[index_in_random_vectorised_matrix].reshape(1, -1))
+        clf.kneighbors(vectorised_matrix[index_in_random_vectorised_matrix]
+                       .reshape(1, -1))
     nbrs_product_ids = []
     for i in range(len(nbr_indices_in_vectorised_matrix[0])):
         nbrs_product_ids.append(random_ids[nbr_indices_in_vectorised_matrix[0][i]])
