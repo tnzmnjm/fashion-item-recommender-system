@@ -40,7 +40,7 @@ model = knn_neural_network.get_model()
 del df
 # UI Section
 
-st.title('Fashion items Dataset')
+st.title('Fashion items Dataset - Small')
 st.text(f'Please take a picture to see the related products: {len(df_random)}')
 
 img_file_buffer = st.camera_input("Take a picture")
@@ -48,7 +48,8 @@ img_file_buffer = st.camera_input("Take a picture")
 
 if img_file_buffer is not None:
     # need to prepare the image before calling the model:
-    image_pillowed = tf.keras.preprocessing.image.load_img(img_file_buffer, target_size=(299, 299))
+    image_pillowed = \
+        tf.keras.preprocessing.image.load_img(img_file_buffer, target_size=(299, 299))
     imag_numpied = knn_neural_network.pillow_image_to_numpy(image_pillowed)
     image_preprocesed = knn_neural_network.numpy_image_nn_preprocessing(imag_numpied)
     vectorised_image = model.predict(image_preprocesed[tf.newaxis, ...])
