@@ -2,7 +2,6 @@ import tensorflow as tf
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
-import joblib
 
 
 # The function below opens an image and return an image object
@@ -31,13 +30,15 @@ def batch_photo_vectorization(list_of_random_ids):
     for i in tqdm(range(len(list_of_random_ids)), desc='encoding images'):
         try:
             loaded_image = load_image_from_disk(list_of_random_ids[i])
-        except FileNotFoundError as e:
-            print(f"Error: Could not find image file {list_of_random_ids[i]} - Skipping .")
+        except FileNotFoundError:
+            print(f"Error: Could not find image file {list_of_random_ids[i]}"
+                  f" - Skipping .")
             continue
         numpied_image = pillow_image_to_numpy(loaded_image)
 
         if len(numpied_image.shape) != 3:
-            print(f"Error: Image with channels {len(numpied_image.shape)} found - Skipping .")
+            print(f"Error: Image with channels {len(numpied_image.shape)} "
+                  f"found - Skipping .")
             continue
 
         preprocessed_image = numpy_image_nn_preprocessing(numpied_image)
@@ -49,13 +50,14 @@ def batch_photo_vectorization(list_of_random_ids):
     return vectorized_photo_matrix, processed_random_ids
 
 
-def batch_image_encoding(ids: list[int], batch_size: int = 32) -> (np.ndarray, list[int]):
+def batch_image_encoding(ids: list[int], batch_size: int = 32) ->\
+        (np.ndarray, list[int]):
     vectors = np.array([])
     buffer, valid_ids = [], []
     for i in tqdm(range(len(ids)), desc='encoding images'):
         try:
             loaded_image = load_image_from_disk(ids[i])
-        except FileNotFoundError as e:
+        except FileNotFoundError:
             print(f"Error: Could not find image file {ids[i]} - Skipping .")
             continue
         numpied_image = pillow_image_to_numpy(loaded_image)
@@ -94,11 +96,11 @@ def get_model():
 
 def main():
 
-    print(f"Initialising the model")
+    print("Initialising the model")
     # Now we initialise the model and download its weights
     model = get_model()
 
-    print(f"Loading styles.csv")
+    print("Loading styles.csv")
     df = pd.read_csv('/Users/tannazmnjm/Downloads/archive/styles.csv', sep=',',
                      on_bad_lines='skip')
 
