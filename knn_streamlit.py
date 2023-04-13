@@ -1,5 +1,6 @@
 from os.path import join
 
+import tensorflow as tf
 import streamlit as st
 from PIL import Image
 from joblib import load
@@ -9,20 +10,25 @@ import pandas as pd
 import knn_neural_network
 
 
-def substitution_product_recommendation(product_id):
-    print(f"Searching for product id: {product_id} in random_ids")
-    index_in_random_id = np.where(random_ids == product_id)[0][0]
-    index_in_random_vectorised_matrix = index_in_random_id
-    distance, nbr_indices_in_vectorised_matrix = \
-        clf.kneighbors(vectorised_matrix[index_in_random_vectorised_matrix]
-                       .reshape(1, -1))
-    nbrs_product_ids = []
-    for i in range(len(nbr_indices_in_vectorised_matrix[0])):
-        nbrs_product_ids.append\
-            (random_ids[nbr_indices_in_vectorised_matrix[0][i]])
-    selected_df = df_random.loc[df_random.id.isin(nbrs_product_ids)]
+def substitution_product_recommendation(image_vector):
+    distance, nbr_indices = clf.kneighbors(image_vector.reshape(1, -1))
 
-    return selected_df
+    nbrs_product_ids = []
+    for i in range(len(nbr_indices[0])):
+        nbrs_product_ids.append(random_ids[nbr_indices[0][i]])
+    neighbours_df = df_random.loc[df_random.id.isin(nbrs_product_ids)]
+
+    st.subheader('Please choose your required filters')
+
+
+
+
+    st.dataframe(neighbours_df)
+    filenames = [join(image_dir, f"{id}.jpg") for id in neighbours_df.id.values]
+    images = [Image.open(img_file) for img_file in filenames]
+    st.image(images)
+
+    return neighbours_df
 
 
 df = pd.read_csv('/Users/tannazmnjm/Downloads/archive/styles.csv',
@@ -40,66 +46,72 @@ del df
 # UI Section
 
 st.title('Fashion items Dataset')
-st.text(f'Select from available products: {len(df_random)}')
+st.text(f'Total number of products: {len(df_random)}')
+
+st.write('Please choose to either see a product at random or take a '
+         'photo with your camera :')
+
+select_random_product = st.button('Random product  🎲')
+if select_random_product:
+    selected_product_id = np.random.choice(random_ids)
+    # selected_product = 52417
+    selected_id_image_path = join(image_dir, f'{selected_product_id}.jpg')
+    st.dataframe(df_random[df_random.id == selected_product_id])
+    st.image(Image.open(selected_id_image_path))
+
+    substitution_product_recommendation(
+        vectorised_matrix[np.where(random_ids == selected_product_id)])
+# # # TODO: need to remove the item itself from the results
 
 
-selected_product = st.selectbox(label='Please choose/search for a product :',
-                                options=df_random.productDisplayName.values)
-selected_id = \
-    df_random[df_random.productDisplayName == selected_product]["id"].values[0]
+input_camera_photo = st.camera_input("Take a picture")
+if input_camera_photo:
+    image_pillowed = \
+        tf.keras.preprocessing.image.load_img(
+            input_camera_photo, target_size=(299, 299))
+    imag_numpied = knn_neural_network.pillow_image_to_numpy(image_pillowed)
+    image_preprocesed = knn_neural_network.numpy_image_nn_preprocessing(imag_numpied)
+    vectorised_image = model.predict(image_preprocesed[tf.newaxis, ...])
+
+    substitution_product_recommendation(vectorised_image)
 
 
-if selected_product is not None:
 
-    if selected_id > 0:
-        st.write(f'Selected Product ID: {selected_id}')
+ # use_gender = st.checkbox('Gender')
+    # use_subcategory = st.checkbox('Sub Category')
+    # use_articletype = st.checkbox('Article Type')
+    # use_basecolour = st.checkbox('Colour')
 
-        selected_id_image_path = join(image_dir, f'{selected_id}.jpg')
-        st.image(Image.open(selected_id_image_path))
-        st.dataframe(df_random[df_random.id == selected_id])
-
-        substitution_df = substitution_product_recommendation(selected_id)
-        # dropping the selected id from the result
-        substitution_df = substitution_df[substitution_df["id"] != selected_id]
-
-        # recommended product will have the same gender unless it's unisex which
-        # will be everything
-
-        st.subheader('Substitutable Products')
-        st.subheader('Please choose your required filters')
-
-        use_gender = st.checkbox('Gender')
-        use_subCategory = st.checkbox('Sub Category')
-        use_articleType = st.checkbox('Article Type')
-        use_baseColour = st.checkbox('Colour')
-
-        if use_gender:
-            selected_id_gender = \
-                df_random.loc[df_random.id == selected_id, "gender"].values[0]
-            if selected_id_gender != 'Unisex':
-                substitution_df = \
-                    substitution_df[substitution_df.gender == selected_id_gender]
-
-        if use_subCategory:
-            subCategory = \
-                df_random.loc[df_random.id == selected_id, "subCategory"].values[0]
-            substitution_df = substitution_df[substitution_df.subCategory == subCategory]
-
-        if use_articleType:
-            articleType = \
-                df_random.loc[df_random.id == selected_id , "articleType"].values[0]
-            substitution_df = substitution_df[substitution_df.articleType == articleType]
-
-        if use_baseColour:
-            colour = df_random.loc[df_random.id == selected_id, "baseColour"].values[0]
-            substitution_df = substitution_df.loc[substitution_df.baseColour == colour]
-
-        st.dataframe(substitution_df)
-
-        filenames = [join(image_dir, f"{id}.jpg") for id in substitution_df.id.values]
-        images = [Image.open(img_file) for img_file in filenames]
-        st.image(images)
-
-    else:
-        st.write('Please enter a valid product ID')
+    # if use_gender:
+    #     selected_id_gender = \
+    #         df_random.loc[df_random.id == selected_product_id, "gender"].values[0]
+    #     if selected_id_gender != 'Unisex':
+    #             neighbours_df = \
+    #                 neighbours_df[neighbours_df.gender == selected_id_gender]
     #
+    # if use_subcategory:
+    #     subcategory = \
+    #         df_random.loc[df_random.id ==
+#         selected_product_id, "subCategory"].values[0]
+    #     substitution_df = neighbours_df[neighbours_df.subCategory == subcategory]
+    #
+    # if use_articletype:
+    #     articletype = \
+    #         df_random.loc[df_random.id ==
+#         selected_product_id , "articleType"].values[0]
+    #     substitution_df = neighbours_df[neighbours_df.articleType == articletype]
+    #
+    # if use_basecolour:
+    #     colour = df_random.loc[df_random.id ==
+#     selected_product_id, "baseColour"].values[0]
+    #     substitution_df = neighbours_df.loc[neighbours_df.baseColour == colour]
+
+
+
+
+
+
+
+
+
+
