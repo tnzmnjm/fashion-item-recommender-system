@@ -12,21 +12,28 @@ import knn_neural_network
 
 def substitution_product_recommendation(image_vector):
     distance, nbr_indices = clf.kneighbors(image_vector.reshape(1, -1))
-
+    # distance = np.sort(distance)
+    distance = distance[0][1:]
+    # nbr_indices = nbr_indices[0][1:]
     nbrs_product_ids = []
     for i in range(len(nbr_indices[0])):
         nbrs_product_ids.append(random_ids[nbr_indices[0][i]])
     neighbours_df = df_random.loc[df_random.id.isin(nbrs_product_ids)]
 
-    st.subheader('Please choose your required filters')
-
-
-
-
     st.dataframe(neighbours_df)
     filenames = [join(image_dir, f"{id}.jpg") for id in neighbours_df.id.values]
     images = [Image.open(img_file) for img_file in filenames]
     st.image(images)
+
+    st.write(f'Based on the choice of the random product or the taken photo, we get the '
+             'vectorised image by passing it through our Neural Network. This vectorised '
+             'image is then passed to our K_nearest neighbour model to find the 5 closest'
+             ' neighbours. '
+             f'The closest item to our chosen product is a '
+             f'{neighbours_df.loc[neighbours_df.id == nbrs_product_ids[0],"baseColour"].values[0]} '
+             f'{neighbours_df.loc[neighbours_df.id == nbrs_product_ids[0],"articleType"].values[0]} '
+             f'which is at a euclidean distance of {round(np.min(distance), 6)} ' 
+             f'with the ID of {neighbours_df.loc[neighbours_df.id == nbrs_product_ids[0],"id"].values[0]}. ')
 
     return neighbours_df
 
@@ -77,7 +84,8 @@ if input_camera_photo:
 
 
 
- # use_gender = st.checkbox('Gender')
+    # st.subheader('Please choose your required filters')
+    # use_gender = st.checkbox('Gender')
     # use_subcategory = st.checkbox('Sub Category')
     # use_articletype = st.checkbox('Article Type')
     # use_basecolour = st.checkbox('Colour')
