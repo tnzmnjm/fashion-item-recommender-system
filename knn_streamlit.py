@@ -12,10 +12,9 @@ import knn_neural_network
 
 def substitution_product_recommendation(image_vector):
     distance, nbr_indices = clf.kneighbors(image_vector.reshape(1, -1))
-    # distance = np.sort(distance)
     distance = distance[0][1:]
-    # nbr_indices = nbr_indices[0][1:]
     nbrs_product_ids = []
+
     for i in range(len(nbr_indices[0])):
         nbrs_product_ids.append(random_ids[nbr_indices[0][i]])
     neighbours_df = df_random.loc[df_random.id.isin(nbrs_product_ids)]
@@ -53,7 +52,8 @@ del df
 # UI Section
 
 st.title('Fashion items Dataset')
-st.text(f'Total number of products: {len(df_random)}')
+
+st.text(f'Total number of products: {len(df_random):,}')
 
 st.write('Please choose to either see a product at random or take a '
          'photo with your camera :')
@@ -71,16 +71,17 @@ if select_random_product:
 # # # TODO: need to remove the item itself from the results
 
 
-input_camera_photo = st.camera_input("Take a picture")
-if input_camera_photo:
-    image_pillowed = \
-        tf.keras.preprocessing.image.load_img(
-            input_camera_photo, target_size=(299, 299))
-    imag_numpied = knn_neural_network.pillow_image_to_numpy(image_pillowed)
-    image_preprocesed = knn_neural_network.numpy_image_nn_preprocessing(imag_numpied)
-    vectorised_image = model.predict(image_preprocesed[tf.newaxis, ...])
+if st.button("Take a picture 📷"):
+    input_camera_photo = st.camera_input("Take a picture 📷")
+    if input_camera_photo:
+        image_pillowed = \
+            tf.keras.preprocessing.image.load_img(
+                input_camera_photo, target_size=(299, 299))
+        imag_numpied = knn_neural_network.pillow_image_to_numpy(image_pillowed)
+        image_preprocesed = knn_neural_network.numpy_image_nn_preprocessing(imag_numpied)
+        vectorised_image = model.predict(image_preprocesed[tf.newaxis, ...])
 
-    substitution_product_recommendation(vectorised_image)
+        substitution_product_recommendation(vectorised_image)
 
 
 
@@ -113,12 +114,6 @@ if input_camera_photo:
     #     colour = df_random.loc[df_random.id ==
 #     selected_product_id, "baseColour"].values[0]
     #     substitution_df = neighbours_df.loc[neighbours_df.baseColour == colour]
-
-
-
-
-
-
 
 
 
