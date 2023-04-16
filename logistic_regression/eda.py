@@ -1,5 +1,8 @@
 import pandas as pd
 import plotly_express as px
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+from pathlib import Path
 
 
 plotly_theme = 'plotly_dark'
@@ -68,5 +71,37 @@ fig.update_yaxes(title_text='Number of missing values')
 fig.show()
 
 # Now I would like to know the most mentioned words in the productDisplayName column. I will use the Word Cloud
+text = ' '.join(df['productDisplayName'].astype(str))
+cloud = WordCloud(width=800,
+                  height=800,
+                  background_color='black',
+                  colormap='RdGy',
+                  min_font_size=10).generate(text)
 
-git status
+cloud.to_file('wordcloud.png')
+
+plt.figure(figsize=(8, 8), facecolor=None)
+plt.imshow(cloud)
+plt.axis("off")
+plt.tight_layout(pad=0)
+
+plt.show()
+
+# I would like to check to see how many images are missing. The image names are the same as the id column
+# in our dataframe.
+
+image_folder = Path('/Users/tannazmnjm/Downloads/archive/images/')
+# Create a set of all the image IDs in the folder
+image_ids = set(path.stem for path in image_folder.glob('*.jpg'))
+
+df_ids = set(df['id'].astype(str))
+missing_ids = df_ids - image_ids
+
+# Print the number of missing IDs
+print(f'{len(missing_ids)} IDs are missing from the folder of images')
+
+# Print the list of missing IDs
+print(f'Missing IDs: {missing_ids}')
+#
+# 5 IDs are missing from the folder of images
+# Missing IDs: {'39410', '12347', '39401', '39403', '39425'}

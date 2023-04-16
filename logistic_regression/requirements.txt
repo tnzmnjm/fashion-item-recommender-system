@@ -1,1 +1,5 @@
 pandas
+plotly_express
+wordcloud
+matplotlib.pyplot
+pathlib
