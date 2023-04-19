@@ -3,8 +3,7 @@
 # Summary
 This repository contains a fashion item recommender system, that suggests similar fashion items based on the user's choice of either a random product or a taken photo.
 
-The dataset used in this project is the Fashion Product Images Dataset available on Kaggle. The pre-trained neural network used for feature extraction is the Inception-V3 model trained on the ImageNet dataset. The KNN model is trained using the feature vectors extracted from the images.
-
+The dataset used in this project is the Fashion Product Images Dataset available on Kaggle. The pre-trained neural network used for feature extraction is the Inception-V3 model trained on the ImageNet dataset. 
 
 # Requirements
 The system requires the following dependencies to run:
@@ -22,10 +21,14 @@ The system requires the following dependencies to run:
 - Wordcloud
 
 # How it works
-The system uses a pre-trained neural network to extract feature vectors from the images of fashion items. These feature vectors are then used to train a K-Nearest Neighbors (KNN) model.
+The system uses a pre-trained neural network to extract feature vectors from the images of fashion items. These feature vectors are then used to train a K-Nearest Neighbors (KNN) model. They are also used in the logistic regression multinomial classification in order to predict the master category of the item.
 
-When the user selects a product or takes a photo, the feature vector for the selected product or the taken photo is extracted using the pre-trained neural network. The KNN model is then used to find the five most similar items to the selected product or the taken photo.
+The script blahblah performs batch photo vectorization using the InceptionV3 model from the Keras library. The script loads images from a specified directory and resizes them to 299x299 pixels. Then, it preprocesses the images using the InceptionV3 preprocessing function and predicts the output vector using the InceptionV3 model.
+The script also performs error handling for files that cannot be found or have an incorrect number of channels.
+After vectorizing the images, it normalizes the resulting matrix and saves it to a file.
+The main function calls other functions in the script and saves the results to files named "random_ids.npy" and "Vectorised Matrix.npy".
 
+When the user selects a product or takes a photo, the feature vector for the selected product or the taken photo is extracted using the pre-trained neural network. The KNN model is then used to find the five most similar items to the selected product or the taken photo. The KNN model is trained using the feature vectors extracted from the images.
 
 The NearestNeighbors class from scikit-learn is now trained on the vectorised_matrix array, with n_neighbors=5 and algorithm='auto'. This means that for any query point, the model will find the 5 nearest neighbors based on Euclidean distance.
 
