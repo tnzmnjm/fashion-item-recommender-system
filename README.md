@@ -25,6 +25,18 @@ The system uses a pre-trained neural network to extract feature vectors from the
 
 # Scripts
 
+- EDA.py
+This script performs Exploratory Data Analysis (EDA) on a dataset, which is loaded as a dataframe (df). The dataset is related to apparel products and consists of 10 columns (id, gender, masterCategory, subCategory, articleType, baseColour, season, year, usage, productDisplayName).
+
+The first part of the code examines the structure of the dataset, including the size of the dataframe and the data types of each column. The number of unique values in each column is also displayed, along with the number of missing values. The missing values are visualized in a bar chart using Plotly.
+
+Next, the most frequently mentioned words in the productDisplayName column are identified using WordCloud. The resulting image is saved to a file.
+
+The code then checks for missing images in the image folder that correspond to the ids in the dataset. Similarly, it identifies the images with no corresponding metadata. The photos with no metadata are removed from the vectorized matrix.
+
+Finally, the code determines which images in the dataset are black and white and saves the id of the black and white photo in a variable.
+
+
 - The script NN.py: performs batch photo vectorization using the InceptionV3 model from the Keras library. The script loads images from a specified directory and resizes them to 299x299 pixels. Then, it preprocesses the images using the InceptionV3 preprocessing function and predicts the output vector using the InceptionV3 model.
 The script also performs error handling for files that cannot be found or have an incorrect number of channels.
 After vectorizing the images, it normalizes the resulting matrix and saves it to a file.
