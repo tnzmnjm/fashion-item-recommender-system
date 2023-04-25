@@ -41,6 +41,10 @@ This script performs Exploratory Data Analysis (EDA). The information below can 
   - finding the images with no metadata
   - determining the black and white images
 
+<img src="https://github.com/tnzmnjm/fashion-item-recommender-system/blob/master/column%20missing%20values.png">
+
+
+
 ![image](https://user-images.githubusercontent.com/22201551/234316792-5325c63e-5366-43db-90bb-46f2d82b9382.png)
 
 
