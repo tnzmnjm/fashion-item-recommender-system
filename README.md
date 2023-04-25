@@ -45,10 +45,8 @@ This script performs Exploratory Data Analysis (EDA). The information below can 
 
 
 
-![image](https://user-images.githubusercontent.com/22201551/234316792-5325c63e-5366-43db-90bb-46f2d82b9382.png)
 
-
-![image](https://user-images.githubusercontent.com/22201551/234317254-5cc0d86f-c951-423c-91d2-eb0c73569af7.png)
+<img src="https://github.com/tnzmnjm/fashion-item-recommender-system/blob/master/wordcloud.png">
 
 
 - The script NN.py: performs batch photo vectorization using the InceptionV3 model from the Keras library. The script loads images from a specified directory and resizes them to 299x299 pixels. Then, it preprocesses the images using the InceptionV3 preprocessing function and predicts the output vector using the InceptionV3 model.
