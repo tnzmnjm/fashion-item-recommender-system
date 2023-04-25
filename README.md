@@ -32,6 +32,21 @@ Next, the most frequently mentioned words in the productDisplayName column are i
 The code then checks for missing images in the image folder that correspond to the ids in the dataset. Similarly, it identifies the images with no corresponding metadata. The photos with no metadata are removed from the vectorized matrix.
 Finally, the code determines which images in the dataset are black and white and saves the id of the black and white photo in a variable.
 
+- EDA.py
+This script performs Exploratory Data Analysis (EDA). The information below can be drawn from this analysis:
+  - the structure of the dataset (size of the dataframe, data types of each column, number of unique values in each column)
+  - Number of missing values in each column which are then visialised in a bar chart using Plotly
+  - the most frequently mentioned words in the productDisplayName column are identified using WordCloud
+  - checking for missing images in the image folder that correspond to the ids in the dataset
+  - finding the images with no metadata
+  - determining the black and white images
+
+![image](https://user-images.githubusercontent.com/22201551/234316792-5325c63e-5366-43db-90bb-46f2d82b9382.png)
+
+
+![image](https://user-images.githubusercontent.com/22201551/234317254-5cc0d86f-c951-423c-91d2-eb0c73569af7.png)
+
+
 - The script NN.py: performs batch photo vectorization using the InceptionV3 model from the Keras library. The script loads images from a specified directory and resizes them to 299x299 pixels. Then, it preprocesses the images using the InceptionV3 preprocessing function and predicts the output vector using the InceptionV3 model.
 The script also performs error handling for files that cannot be found or have an incorrect number of channels.
 After vectorizing the images, it normalizes the resulting matrix and saves it to a file.
@@ -51,4 +66,4 @@ Choosing to see a product at random, an image of that produnct along with the me
 
 ![image](https://user-images.githubusercontent.com/22201551/232072089-48aaaf57-97fc-4c8a-a951-83f49e507662.png)
 
-Please note in order to do the identity check, I have left the image of the randomly selected item to be present but have removed it from the final result and instead the metadata of the second closest item is returned.
+Please note in order to do the identity check, I have left the image of the randomly selected item to be present.
