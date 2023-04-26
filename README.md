@@ -25,7 +25,7 @@ The system uses a pre-trained neural network to extract feature vectors from the
 
 # Scripts
 
-- EDA.py
+- The script EDA.py:
 This script performs Exploratory Data Analysis (EDA). The information below can be drawn from this analysis:
   - the structure of the dataset (size of the dataframe, data types of each column, number of unique values in each column)
   - number of missing values in each column which are then visialised in a bar chart using Plotly
@@ -39,7 +39,8 @@ This script performs Exploratory Data Analysis (EDA). The information below can 
 <img src="https://github.com/tnzmnjm/fashion-item-recommender-system/blob/master/wordcloud.png">
 
 
-- The script NN.py: performs batch photo vectorization using the InceptionV3 model from the Keras library. 
+- The script NN.py: 
+performs batch photo vectorization using the InceptionV3 model from the Keras library. 
   - images are loaded from a specified directory and resized to 299x299 pixels. 
   - these images are then processed using the InceptionV3 preprocessing function and predicts the output vector using the InceptionV3 model.
   - the script also performs error handling for files that cannot be found or have an incorrect number of channels.
