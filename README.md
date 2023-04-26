@@ -36,7 +36,7 @@ This script performs Exploratory Data Analysis (EDA). The information below can 
 
 
 <img src="https://github.com/tnzmnjm/fashion-item-recommender-system/blob/master/column%20missing%20values.png">
-<img src="https://github.com/tnzmnjm/fashion-item-recommender-system/blob/master/wordcloud.png">
+<img src="https://github.com/tnzmnjm/fashion-item-recommender-system/blob/master/wordcloud.png" width="500" height="500"> 
 
 
 - The script NN.py: 
