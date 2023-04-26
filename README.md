@@ -25,7 +25,7 @@ The system uses a pre-trained neural network to extract feature vectors from the
 
 # Scripts
 
-- The script EDA.py:
+1 - <b>The script EDA.py</b>:
 This script performs Exploratory Data Analysis (EDA). The information below can be drawn from this analysis:
   - the structure of the dataset (size of the dataframe, data types of each column, number of unique values in each column)
   - number of missing values in each column which are then visialised in a bar chart using Plotly
@@ -34,12 +34,11 @@ This script performs Exploratory Data Analysis (EDA). The information below can 
   - finding the images with no metadata
   - determining the black and white images
 
-
 <img src="https://github.com/tnzmnjm/fashion-item-recommender-system/blob/master/column%20missing%20values.png">
 <img src="https://github.com/tnzmnjm/fashion-item-recommender-system/blob/master/wordcloud.png" width="500" height="500"> 
 
 
-- The script NN.py: 
+2 - <b>The script NN.py</b>: 
 performs batch photo vectorization using the InceptionV3 model from the Keras library. 
   - images are loaded from a specified directory and resized to 299x299 pixels. 
   - these images are then processed using the InceptionV3 preprocessing function and predicts the output vector using the InceptionV3 model.
@@ -47,13 +46,13 @@ performs batch photo vectorization using the InceptionV3 model from the Keras li
   - After vectorizing the images, it normalizes the resulting matrix and saves it to a file.
   - The main function calls other functions in the script and saves the results to files named "random_ids.npy" and "Vectorised Matrix.npy".
 
-- The script KNN-main.py:
+3 - <b>The script KNN-main.py</b>:
 This code is for creating a product recommendation system using the K-Nearest Neighbors (KNN) algorithm. 
   - The program uses a preprocessed dataset of product images to compute image features using the Inception V3 model. 
   - The NearestNeighbors class from scikit-learn is now trained on the vectorised_matrix array, with n_neighbors=5 and algorithm='auto'. This means that for any query point, the model will find the 5 nearest neighbors based on Euclidean distance.
   - The substitution_product_recommendation function takes a product ID as an input and returns a dataframe of recommended substitute products based on image similarity computed by the KNN model. The program saves the trained KNN model to a file named "knn_model.joblib" using the joblib library.
 
-- The script knn_streamlit.py:
+4 - <b>The script knn_streamlit.py</b>:
   - Streamlit web application is used for demonstration of the result. After running the streamlit file, there is an option for either choosing a product at random or taking a photo
   - based on the user preference, the image vector of that image wil be found/calculated and will be passed to the function substitution_product_recommendation(image_vector)which will then pass the vectors to our knn model and provides the closest neighbours(recommendations).
 
