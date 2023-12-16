@@ -1,5 +1,8 @@
 # Fashion Item Recommender System Using Neural Networks and K-Nearest Neighbors
 
+**Please note the code in this repo is a work in progress. It may not work without some changes that have not been documented fully.**
+
+
 # Summary
 This repository contains a fashion item recommender system, that suggests similar fashion items based on the user's choice of either a random product or a taken photo.
 
